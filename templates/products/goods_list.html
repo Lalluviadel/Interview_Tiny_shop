@@ -4,6 +4,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid text-center mt-5">
+            <p>Info: {{ site_name }}</p>
                 <h1>
                     {% if section %}
                         Товары раздела <b class="oranged">{{ section.name }}</b>
@@ -19,6 +20,7 @@
                         <th>Цена, руб.</th>
                         <th>Ед. изм.</th>
                         <th>Дата добавления</th>
+                        <th>Сайт</th>
                         {% if not section %}<th>Разделы</th>{% endif %}
                     </tr>
                     </thead>
@@ -29,6 +31,13 @@
                             <td>{{ product.price }}</td>
                             <td>{{ product.measure }}</td>
                             <td>{{ product.received_on | date }}</td>
+
+                             <td>
+                                    <ul>{% for item in product.site.all %}
+                                        <li class="text-left">{{ item.name }}</li>
+                                    {% endfor %}</ul>
+                                </td>
+
                             {% if not section %}
                                 <td>
                                     <ul>{% for item in product.category.all %}
