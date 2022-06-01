@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid text-center mt-5">
+            <p>Info: {{ site_name }}</p>
+                <h1>
+                    {% if section %}
+                        Товары раздела <b class="oranged">{{ section.name }}</b>
+                    {% else %}
+                        <b class="oranged">Все товары</b>
+                    {% endif %}
+                </h1>
+                <table class="font-xl m-2">
+                    <thead>
+                    <tr id="table-headers">
+                        <th>Наименование</th>
+                        <th>Поставщик</th>
+                        <th>Цена, руб.</th>
+                        <th>Ед. изм.</th>
+                        <th>Дата добавления</th>
+                        <th>Сайт</th>
+                        {% if not section %}<th>Разделы</th>{% endif %}
+                    </tr>
+                    </thead>
+                    {% for product in object_list %}
+                        <tr id="table-rows">
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.supplier_name }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.measure }}</td>
+                            <td>{{ product.received_on | date }}</td>
+
+                             <td>
+                                    <ul>{% for item in product.site.all %}
+                                        <li class="text-left">{{ item.name }}</li>
+                                    {% endfor %}</ul>
+                                </td>
+
+                            {% if not section %}
+                                <td>
+                                    <ul>{% for item in product.category.all %}
+                                        <li class="text-left">{{ item }}</li>
+                                    {% endfor %}</ul>
+                                </td>
+                            {% endif %}
+
+
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col text-center">
+                <a class='btn btn-outline-dark btn-orange ml-3 mb-1'
+                   href='/admin/products/product/add/'>Добавить товар</a>
+            </div>
+        </main>
+    </div>
+
+{% endblock %}
